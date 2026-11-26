@@ -1,6 +1,6 @@
-# Base image updated by Renovate, update versionCompatibility on Debian base bump
-ARG BUILD_FROM=ghcr.io/home-assistant/base-debian:trixie-2026.11.1@sha256:a7e1db1748f4b3c2d5c01d680f5f85ab32bfd3a0d320d1a9647e6a74e049ed9e
-FROM $BUILD_FROM
+# Base image pinned directly: Supervisor passes its own (Alpine) BUILD_FROM,
+# so we don't rely on it - we need the Debian base for apt-get.
+FROM ghcr.io/home-assistant/base-debian:trixie-2026.11.1@sha256:a7e1db1748f4b3c2d5c01d680f5f85ab32bfd3a0d320d1a9647e6a74e049ed9e
 
 # Install mosquitto + auth plugin
 WORKDIR /usr/src
@@ -35,6 +35,9 @@ RUN apt-get update \
     && sed -i 's/^WITH_EDITLINE=yes/#WITH_EDITLINE=yes/' config.mk \
     # Disable REST API
     && sed -i 's/^WITH_HTTP_API=yes/#WITH_HTTP_API=yes/' config.mk \
+    # Polaris devices send SUBSCRIBE/UNSUBSCRIBE with packet id 0 (non-spec, harmless)
+    && sed -i -e 's/if(mid == 0){/if(0){/' \
+        src/handle_subscribe.c src/handle_unsubscribe.c \
     && make WITH_WEBSOCKETS=yes WITH_SRV=yes \
     && make install \
     && cd .. \

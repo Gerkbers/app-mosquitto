@@ -1,16 +1,14 @@
 ---
-version: dev
-slug: mosquitto
-name: Mosquitto broker
-description: An Open Source MQTT broker
-url: https://github.com/home-assistant/app-mosquitto
+version: 7.1.3-mid
+slug: mosquitto_flags
+name: Mosquitto broker (flags fix)
+description: An Open Source MQTT broker with CONNECT-fields leniency for Polaris devices
+url: https://github.com/Gerkbers/app-mosquitto
 arch:
-  - aarch64
   - amd64
 auth_api: true
 discovery:
   - mqtt
-image: ghcr.io/home-assistant/app-mosquitto
 map:
   - ssl
   - share
@@ -25,10 +23,10 @@ options:
     active: false
     folder: mosquitto
 ports:
-  1883/tcp: 1883
-  1884/tcp: 1884
+  1883/tcp: null
+  1884/tcp: null
   8883/tcp: 8883
-  8884/tcp: 8884
+  8884/tcp: null
 schema:
   logins:
     - username: str
