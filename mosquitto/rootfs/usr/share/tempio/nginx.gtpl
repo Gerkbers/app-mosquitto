@@ -39,11 +39,11 @@ http {
     }
 
     location = /superuser {
-      return 200;
+      return 401;
     }
 
     location = /acl {
-      return 200;
+      return 401;
     }
   }
 }

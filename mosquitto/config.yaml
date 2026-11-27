@@ -1,5 +1,5 @@
 ---
-version: 7.1.3-mid
+version: 7.1.8
 slug: mosquitto_flags
 name: Mosquitto broker (flags fix)
 description: An Open Source MQTT broker with CONNECT-fields leniency for Polaris devices

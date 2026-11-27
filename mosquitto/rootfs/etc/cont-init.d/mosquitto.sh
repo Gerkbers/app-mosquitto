@@ -62,6 +62,13 @@ for login in $(bashio::config 'logins|keys'); do
   echo "user ${username}" >> "${ACL}"
 done
 
+# Optional per-topic ACL rules, appended after the generated user lines.
+# Put them in /share/mosquitto/acl (no rebuild needed to change, just restart).
+if bashio::fs.file_exists "/share/mosquitto/acl"; then
+  bashio::log.info "Adding custom ACL rules from /share/mosquitto/acl"
+  cat /share/mosquitto/acl >> "${ACL}"
+fi
+
 keyfile="/ssl/$(bashio::config 'keyfile')"
 certfile="/ssl/$(bashio::config 'certfile')"
 cafile="/ssl/$(bashio::config 'cafile')"
